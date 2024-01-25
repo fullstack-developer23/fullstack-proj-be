@@ -2,12 +2,12 @@ const bcrypt = require("bcrypt");
 
 const User = require("../user/model");
 
-const saltRounds = parsInt(process.env.SALT);
+const saltRounds = parseInt(process.env.SALT);
 
 const hashPass = async (req, res, next) => {
   console.log("hello from hashpass", req.body);
   try {
-    const hashedPassword = await bcrypt.hash(req.body, saltRounds);
+    const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
 
     req.body.password = hashedPassword;
 
