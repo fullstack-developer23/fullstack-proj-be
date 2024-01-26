@@ -22,7 +22,22 @@ const login = async (req, res) => {
   }
 };
 
+const deleteOneByUser = async (req, res) => {
+  try {
+    const deleteUser = await User.destroy({
+      where: {
+        username: req.body.username,
+      },
+    });
+
+    res.status(201).json({ message: "User deleted", deleteUser: deleteUser });
+  } catch (error) {
+    res.status(500).json({ message: error.message, error: error });
+  }
+};
+
 module.exports = {
   addUser: addUser,
   login: login,
+  deleteOneByUser: deleteOneByUser,
 };
