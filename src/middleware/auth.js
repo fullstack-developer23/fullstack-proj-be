@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 
 const User = require("../user/model");
+const Order = require("../orders/model");
 
 const saltRounds = parseInt(process.env.SALT);
 
@@ -22,6 +23,7 @@ const comparePass = async (req, res, next) => {
     console.log("hello from auth/comparePass", req.body);
     const user = await User.findOne({
       where: { username: req.body.username },
+      include: Order,
     });
     console.log(user);
 
