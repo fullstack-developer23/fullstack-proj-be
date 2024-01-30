@@ -36,8 +36,38 @@ const deleteOneByUser = async (req, res) => {
   }
 };
 
+const updateEmail = async (req, res) => {
+  try {
+    const result = await User.update(
+      { email: req.body.email },
+      { where: { username: req.body.username } }
+    );
+    console.log("result", result);
+
+    const updatedUser = await User.findOne({
+      where: { username: req.body.username },
+    });
+    console.log("updatedUser", updatedUser);
+
+    res.status(201).json({ message: "Email updated", user: updatedUser });
+  } catch (error) {
+    res.status(500).json({ message: error.message, error: error });
+  }
+};
+
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.findAll();
+
+    res.status(200).json({ message: "All users here", users: users });
+  } catch (error) {
+    res.status(500).json({ message: error.message, error: error });
+  }
+};
 module.exports = {
   addUser: addUser,
   login: login,
   deleteOneByUser: deleteOneByUser,
+  updateEmail: updateEmail,
+  getAllUsers: getAllUsers,
 };
